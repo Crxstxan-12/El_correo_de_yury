@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Nuevo Usuario</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container my-4">
+  <div class="d-flex align-items-center mb-3">
+    <button class="btn btn-light me-2" data-bs-toggle="offcanvas" data-bs-target="#appMenu" aria-controls="appMenu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4">Crear Usuario</h1>
+    <a class="btn btn-outline-secondary" href="{% url 'usuarios:dashboard' %}">Dashboard</a>
+  </div>
+
+  {% if message %}
+    <div class="alert alert-{{ message_type }}">{{ message }}</div>
+  {% endif %}
+
+  <form method="post" class="card border-0 shadow-sm">
+    <div class="card-body">
+      {% if message %}
+        <div class="alert alert-{% if message_type == 'success' %}success{% elif message_type == 'error' %}danger{% else %}info{% endif %} mb-3" role="alert">
+          {{ message }}
+        </div>
+      {% endif %}
+      {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="{{ form.username.id_for_label }}">Usuario</label>
+          {{ form.username }}
+          {% if form.username.errors %}
+            <div class="invalid-feedback d-block">{{ form.username.errors|striptags }}</div>
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="{{ form.email.id_for_label }}">Email (opcional)</label>
+          {{ form.email }}
+          {% if form.email.errors %}
+            <div class="invalid-feedback d-block">{{ form.email.errors|striptags }}</div>
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="{{ form.password1.id_for_label }}">Contraseña</label>
+          {{ form.password1 }}
+          {% if form.password1.errors %}
+            <div class="invalid-feedback d-block">{{ form.password1.errors|striptags }}</div>
+          {% endif %}
+          {% if form.password1.help_text %}
+            <div class="form-text">{{ form.password1.help_text|safe }}</div>
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="{{ form.password2.id_for_label }}">Confirmar contraseña</label>
+          {{ form.password2 }}
+          {% if form.password2.errors %}
+            <div class="invalid-feedback d-block">{{ form.password2.errors|striptags }}</div>
+          {% endif %}
+        </div>
+      </div>
+      <hr>
+      <div class="mb-3">
+        <label class="form-label">Asignar a grupo (opcional)</label>
+        <select name="group" class="form-select">
+          <option value="">Ninguno</option>
+          {% for g in groups %}
+            <option value="{{ g.name }}">{{ g.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="text-end">
+        <button type="submit" class="btn btn-primary">Crear usuario</button>
+      </div>
+    </div>
+  </form>
+</body>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="appMenu" aria-labelledby="appMenuLabel" style="--bs-offcanvas-width: 280px;">
+  <div class="offcanvas-header">
+    <h5 id="appMenuLabel">Menú</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action" href="{% url 'usuarios:dashboard' %}"><i class="fas fa-gauge me-2"></i> Dashboard</a>
+      <a class="list-group-item list-group-item-action" href="{% url 'usuarios:lista_trabajadores' %}"><i class="fas fa-users me-2"></i> Trabajadores</a>
+      <a class="list-group-item list-group-item-action" href="{% url 'usuarios:lista_departamentos' %}"><i class="fas fa-building me-2"></i> Departamentos</a>
+      <a class="list-group-item list-group-item-action" href="{% url 'usuarios:lista_cargos' %}"><i class="fas fa-briefcase me-2"></i> Cargos</a>
+      <a class="list-group-item list-group-item-action" href="{% url 'usuarios:lista_areas' %}"><i class="fas fa-location-dot me-2"></i> Áreas</a>
+      {% if can_view_users %}
+      <a class="list-group-item list-group-item-action" href="{% url 'usuarios:lista_usuarios' %}"><i class="fas fa-user-group me-2"></i> Usuarios</a>
+      {% endif %}
+      <a class="list-group-item list-group-item-action" href="{% url 'usuarios:perfil' %}"><i class="fas fa-id-badge me-2"></i> Perfil</a>
+      <a class="list-group-item list-group-item-action text-danger" href="{% url 'usuarios:logout' %}"><i class="fas fa-right-from-bracket me-2"></i> Cerrar sesión</a>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</html>

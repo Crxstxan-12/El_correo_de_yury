@@ -1,0 +1,75 @@
+# --- Archivos de entorno y configuración ---
+.env
+*.env
+.env.*
+
+# --- Entorno virtual ---
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Archivos de base de datos ---
+*.sqlite3
+db.sqlite3
+
+# --- Archivos compilados de Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Archivos de logs ---
+*.log
+logs/
+debug.log
+
+# --- Archivos temporales / caché ---
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*~
+*.bak
+*.tmp
+*.log
+*.pid
+*.seed
+*.cover
+*.cache
+.coverage
+.tox/
+.nox/
+.mypy_cache/
+.pytest_cache/
+.dmypy.json
+pytestdebug.log
+
+# --- Archivos de IDE ---
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# --- Archivos de sistema ---
+.DS_Store
+Thumbs.db
+
+# --- Archivos estáticos y media generados ---
+/staticfiles/
+/media/
+/static/
+/mediafiles/
+
+# --- Migraciones compiladas ---
+*/migrations/__pycache__/
+*/migrations/*.pyc
+
+# --- Archivos de Docker o dependencias locales ---
+*.pid
+*.sock
+*.mo
+*.pot
+celerybeat-schedule

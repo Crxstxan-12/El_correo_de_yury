@@ -1,0 +1,257 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El Correo - Lista de Trabajadores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'usuarios/css/lista_trabajadores_html.css' %}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <button class="btn btn-light me-2" data-bs-toggle="offcanvas" data-bs-target="#appMenu" aria-controls="appMenu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="{% url 'root' %}">
+                <i class="fas fa-envelope"></i> El Correo
+            </a>
+            <div class="d-flex ms-auto">
+                <a class="btn btn-outline-light me-2" href="{% url 'usuarios:dashboard' %}">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a class="btn btn-outline-light" href="{% url 'usuarios:logout' %}">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <!-- Hero -->
+        <section class="hero-gestor card border-0 shadow-sm mb-4">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <h1 class="h3 text-white mb-2"><i class="fas fa-users me-2"></i> Gestión de Trabajadores</h1>
+                    <p class="text-white-50 mb-0">Visualiza y administra la información de los trabajadores de la empresa</p>
+                </div>
+                <div class="hero-icon"><i class="fas fa-chart-line"></i></div>
+            </div>
+        </section>
+
+        <!-- KPIs -->
+        <section class="row g-3 mb-3">
+            <div class="col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted small">Total Trabajadores</div>
+                            <div class="display-6 fw-bold">{{ total_trabajadores }}</div>
+                        </div>
+                        <div class="stat-icon bg-primary-subtle text-primary"><i class="fas fa-users"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted small">Áreas</div>
+                            <div class="display-6 fw-bold">{{ total_areas }}</div>
+                        </div>
+                        <div class="stat-icon bg-info-subtle text-info"><i class="fas fa-location-dot"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted small">Departamentos</div>
+                            <div class="display-6 fw-bold">{{ total_departamentos }}</div>
+                        </div>
+                        <div class="stat-icon bg-success-subtle text-success"><i class="fas fa-building"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted small">Cargos</div>
+                            <div class="display-6 fw-bold">{{ total_cargos }}</div>
+                        </div>
+                        <div class="stat-icon bg-warning-subtle text-warning"><i class="fas fa-briefcase"></i></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filtros -->
+        <form id="filtersForm" class="card border-0 shadow-sm mb-3" method="get">
+            <div class="card-body row g-3 align-items-end">
+                <div class="col-md-6">
+                    <label class="form-label"><i class="fas fa-search me-1"></i> Buscar por nombre</label>
+                    <input type="text" class="form-control" name="q" value="{{ filters.q }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label"><i class="fas fa-id-card me-1"></i> Buscar por RUT</label>
+                    <input type="text" class="form-control" name="rut" value="{{ filters.rut }}"
+                           {% if not has_rut %}disabled placeholder="Campo RUT no disponible"{% endif %}>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label"><i class="fas fa-location-dot me-1"></i> Filtrar por área</label>
+                    <select class="form-select" name="area">
+                        <option value="">Todas las áreas</option>
+                        {% for a in areas %}
+                            <option value="{{ a.id }}" {% if filters.area == a.id|stringformat:"s" %}selected{% endif %}>{{ a.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label"><i class="fas fa-building me-1"></i> Filtrar por departamento</label>
+                    <select class="form-select" name="depto">
+                        <option value="">Todos los departamentos</option>
+                        {% for d in departamentos %}
+                            <option value="{{ d.id }}" {% if filters.depto == d.id|stringformat:"s" %}selected{% endif %}>{{ d.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label"><i class="fas fa-briefcase me-1"></i> Filtrar por cargo</label>
+                    <select class="form-select" name="cargo">
+                        <option value="">Todos los cargos</option>
+                        {% for c in cargos %}
+                            <option value="{{ c.id }}" {% if filters.cargo == c.id|stringformat:"s" %}selected{% endif %}>{{ c.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label"><i class="fas fa-venus-mars me-1"></i> Filtrar por sexo</label>
+                    <select class="form-select" name="sexo">
+                        <option value="">Todos</option>
+                        <option value="M" {% if filters.sexo == 'M' %}selected{% endif %}>Masculino</option>
+                        <option value="F" {% if filters.sexo == 'F' %}selected{% endif %}>Femenino</option>
+                        <option value="O" {% if filters.sexo == 'O' %}selected{% endif %}>Otro</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label"><i class="fas fa-sort me-1"></i> Ordenar por</label>
+                    <select class="form-select" name="order">
+                        <option value="name_asc" {% if filters.order == 'name_asc' %}selected{% endif %}>Nombre (A→Z)</option>
+                        <option value="name_desc" {% if filters.order == 'name_desc' %}selected{% endif %}>Nombre (Z→A)</option>
+                        <option value="date_asc" {% if filters.order == 'date_asc' %}selected{% endif %}>Ingreso (más antiguo)</option>
+                        <option value="date_desc" {% if filters.order == 'date_desc' %}selected{% endif %}>Ingreso (más reciente)</option>
+                    </select>
+                </div>
+
+                <div class="col-md-8 d-flex justify-content-end gap-2">
+                    <a href="{% url 'usuarios:lista_trabajadores' %}" class="btn btn-outline-secondary">Limpiar filtros</a>
+                    <button type="submit" class="btn btn-primary">Aplicar filtros</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Lista -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h2 class="h5 mb-0"><i class="fas fa-file-alt me-2"></i> Lista de Trabajadores</h2>
+            <span class="badge bg-primary fs-6">{{ filtered_count }} trabajadores</span>
+        </div>
+
+        <div class="card card-table">
+            {% if trabajadores %}
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th><i class="fas fa-user"></i> Nombre</th>
+                                    <th><i class="fas fa-id-card"></i> RUT</th>
+                                    <th><i class="fas fa-venus-mars"></i> Sexo</th>
+                                    <th><i class="fas fa-location-dot"></i> Área</th>
+                                    <th><i class="fas fa-building"></i> Depto</th>
+                                    <th><i class="fas fa-briefcase"></i> Cargo</th>
+                                    <th><i class="fas fa-calendar"></i> Ingreso</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for t in trabajadores %}
+                                    <tr>
+                                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                                        <td><strong>{{ t.nombres }} {{ t.apellidos }}</strong></td>
+                                        <td>{{ t.rut|default:"-" }}</td>
+                                        <td>
+                                            {% if t.sexo == 'M' %}<span class="badge bg-primary">Masculino</span>
+                                            {% elif t.sexo == 'F' %}<span class="badge bg-danger">Femenino</span>
+                                            {% else %}<span class="badge bg-secondary">Otro</span>{% endif %}
+                                        </td>
+                                        <td>{{ t.area.nombre|default:"-" }}</td>
+                                        <td>{{ t.departamento.nombre|default:"-" }}</td>
+                                        <td>{{ t.cargo.nombre|default:"-" }}</td>
+                                        <td>{{ t.fecha_ingreso|date:"d/m/Y"|default:"-" }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Paginación -->
+                    <nav aria-label="Navegación de tabla">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                                <a class="page-link"
+                                   href="{% if page_obj.has_previous %}?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ page_obj.previous_page_number }}{% else %}#{% endif %}">
+                                    Anterior
+                                </a>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                            </li>
+                            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                                <a class="page-link"
+                                   href="{% if page_obj.has_next %}?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ page_obj.next_page_number }}{% else %}#{% endif %}">
+                                    Siguiente
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            {% else %}
+                <div class="card-body text-center py-5">
+                    <h3 class="mb-2">No se encontraron trabajadores</h3>
+                    <p class="text-muted mb-0">No hay registros que coincidan con los filtros aplicados.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="appMenu" aria-labelledby="appMenuLabel" style="--bs-offcanvas-width: 280px;">
+        <div class="offcanvas-header">
+            <h5 id="appMenuLabel">Menú</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action" href="{% url 'usuarios:dashboard' %}"><i class="fas fa-gauge me-2"></i> Dashboard</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'usuarios:lista_trabajadores' %}"><i class="fas fa-users me-2"></i> Trabajadores</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'usuarios:lista_departamentos' %}"><i class="fas fa-building me-2"></i> Departamentos</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'usuarios:lista_cargos' %}"><i class="fas fa-briefcase me-2"></i> Cargos</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'usuarios:lista_areas' %}"><i class="fas fa-location-dot me-2"></i> Áreas</a>
+                {% if can_view_users %}
+                <a class="list-group-item list-group-item-action" href="{% url 'usuarios:lista_usuarios' %}"><i class="fas fa-user-group me-2"></i> Usuarios</a>
+                {% endif %}
+                <a class="list-group-item list-group-item-action" href="{% url 'usuarios:perfil' %}"><i class="fas fa-id-badge me-2"></i> Perfil</a>
+                <a class="list-group-item list-group-item-action text-danger" href="{% url 'usuarios:logout' %}"><i class="fas fa-right-from-bracket me-2"></i> Cerrar sesión</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'usuarios/js/trabajadores.js' %}"></script>
+</body>
+</html>

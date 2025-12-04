@@ -1,0 +1,32 @@
+body { background-color: #f8f9fa; }
+.title-section { font-weight: 700; }
+.card-table { border: none; box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-radius: 10px; }
+.card-table .card-header { border-top-left-radius: 10px; border-top-right-radius: 10px; }
+.empty-icon i { filter: drop-shadow(0 4px 14px rgba(64, 121, 255, 0.25)); }
+.table thead th { vertical-align: middle; }
+.btn-add { box-shadow: 0 6px 18px rgba(64, 121, 255, 0.35); }
+
+:root {
+  --hero-gradient: linear-gradient(135deg, #6a5acd 0%, #8a6dff 50%, #5bc0eb 100%);
+}
+
+.hero-gestor .card-body {
+  background: var(--hero-gradient);
+  color: #fff;
+  border-radius: .75rem;
+  padding: 1.5rem;
+}
+
+.hero-icon {
+  width: 56px; height: 56px; border-radius: 12px;
+  background: rgba(255,255,255,.15);
+  display: grid; place-items: center;
+  font-size: 1.4rem; color: #fff;
+}
+
+.stat-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: grid; place-items: center; font-size: 1.25rem;
+}
+
+.card, .list-group-item { border-radius: .75rem; }

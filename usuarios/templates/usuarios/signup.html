@@ -1,0 +1,122 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crear cuenta - El Correo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'usuarios/css/login_html.css' %}" rel="stylesheet">
+</head>
+<body class="auth-page">
+    <div class="auth-wrapper container-fluid d-flex align-items-center justify-content-center min-vh-100">
+        <div class="row w-100 justify-content-center">
+            <div class="col-sm-10 col-md-6 col-lg-4">
+                <div class="login-card card shadow-lg border-0 p-4">
+                    <div class="text-center mb-3">
+                        <div class="avatar-pill mx-auto mb-2">EC</div>
+                        <h1 class="h3 mb-1">Crear cuenta</h1>
+                        <small class="text-muted">Regístrate para usar el sistema</small>
+                    </div>
+                    {% if message %}
+                        <div class="alert alert-{% if message_type == 'success' %}success{% elif message_type == 'error' %}danger{% else %}info{% endif %} mb-3" role="alert">{{ message }}</div>
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.username.id_for_label }}">Usuario</label>
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                <div class="invalid-feedback d-block">{{ form.username.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.nombres.id_for_label }}">Nombres</label>
+                                {{ form.nombres }}
+                                {% if form.nombres.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.nombres.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.apellidos.id_for_label }}">Apellidos</label>
+                                {{ form.apellidos }}
+                                {% if form.apellidos.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.apellidos.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.sexo.id_for_label }}">Sexo</label>
+                                {{ form.sexo }}
+                                {% if form.sexo.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.sexo.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6"></div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="{{ form.area.id_for_label }}">Área</label>
+                                {{ form.area }}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="{{ form.departamento.id_for_label }}">Departamento</label>
+                                {{ form.departamento }}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="{{ form.cargo.id_for_label }}">Cargo</label>
+                                {{ form.cargo }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="invalid-feedback d-block">{{ form.email.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.password1.id_for_label }}">Contraseña</label>
+                            {{ form.password1 }}
+                            {% if form.password1.help_text %}
+                                <div class="form-text">{{ form.password1.help_text|safe }}</div>
+                            {% endif %}
+                            {% if form.password1.errors %}
+                                <div class="invalid-feedback d-block">{{ form.password1.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.password2.id_for_label }}">Confirmar contraseña</label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                <div class="invalid-feedback d-block">{{ form.password2.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.rut.id_for_label }}">RUT</label>
+                            {{ form.rut }}
+                            {% if form.rut.errors %}
+                                <div class="invalid-feedback d-block">{{ form.rut.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.fecha_ingreso.id_for_label }}">Fecha de ingreso</label>
+                            {{ form.fecha_ingreso }}
+                            {% if form.fecha_ingreso.errors %}
+                                <div class="invalid-feedback d-block">{{ form.fecha_ingreso.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2">
+                            <i class="fas fa-user-plus me-1"></i> Crear cuenta
+                        </button>
+                        <div class="text-center mt-3">
+                            <small class="text-muted">¿Ya tienes cuenta? <a href="{% url 'usuarios:login' %}" class="link-primary">Inicia sesión</a></small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

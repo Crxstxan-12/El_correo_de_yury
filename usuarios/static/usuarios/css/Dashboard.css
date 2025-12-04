@@ -1,0 +1,66 @@
+ /* ... existing code ... */
+:root {
+  --hero-gradient: linear-gradient(135deg, #6a5acd 0%, #8a6dff 50%, #5bc0eb 100%);
+}
+
+.brand-chip {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #6a5acd;
+  box-shadow: 0 6px 14px rgba(106, 90, 205, .3);
+  display: inline-grid;
+  place-items: center;
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #0d6efd;
+  display: inline-grid;
+  place-items: center;
+  font-weight: 600;
+  color: #fff;
+}
+
+.hero .card-body {
+  background: var(--hero-gradient);
+  color: #fff;
+  border-radius: .75rem;
+  padding: 1.5rem;
+}
+
+.hero-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .15);
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+}
+
+.quick-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+}
+
+.card,
+.list-group-item {
+  border-radius: .75rem;
+}
+/* // ... existing code ... */

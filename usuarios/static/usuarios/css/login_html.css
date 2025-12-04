@@ -1,0 +1,90 @@
+/* Fondo con gradiente y centrado */
+html, body {
+    height: 100%;
+}
+
+body.auth-page,
+.auth-page {
+    min-height: 100vh;
+    background: radial-gradient(1200px circle at -200px 200px, #8a6cf7 0%, #7a62f0 25%, transparent 60%),
+                radial-gradient(1200px circle at calc(100% + 200px) calc(100% - 200px), #6fb1f7 0%, #5da4f0 25%, transparent 60%),
+                linear-gradient(135deg, #6b63ff 0%, #8a6cf7 50%, #6fb1f7 100%);
+}
+
+/* Contenedor y tarjeta */
+.auth-wrapper { padding: 2rem 1rem; }
+.login-card { max-width: 420px; border-radius: 16px; }
+
+/* Navbar Home */
+.btn-home-gradient {
+    background: linear-gradient(90deg, #6b63ff, #8a6cf7);
+    border: none;
+    color: #fff;
+}
+.btn-home-gradient:hover {
+    opacity: 0.95;
+}
+
+/* Tarjeta de login */
+.login-card {
+    border-radius: 16px;
+    backdrop-filter: saturate(180%) blur(6px);
+}
+
+/* Avatar circular con gradiente */
+.avatar-pill {
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #6b63ff, #8a6cf7);
+    box-shadow: 0 8px 24px rgba(107, 99, 255, 0.35);
+}
+
+/* Inputs */
+.input-group .input-group-text {
+    background-color: #f5f6fa;
+    border-color: #e6e8ef;
+    color: #6b7280;
+}
+.form-control {
+    border-color: #e6e8ef;
+    padding: 0.6rem 0.75rem;
+}
+.form-control:focus {
+    border-color: #8a6cf7;
+    box-shadow: 0 0 0 0.2rem rgba(138, 108, 247, 0.15);
+}
+
+/* Botón principal */
+.btn-primary {
+    background: linear-gradient(90deg, #6b63ff, #8a6cf7);
+    border: none;
+    box-shadow: 0 8px 24px rgba(107, 99, 255, 0.35);
+}
+.btn-primary:hover {
+    filter: brightness(0.97);
+}
+
+/* Texto secundario */
+.text-muted {
+    color: #6b7280 !important;
+}
+
+/* Meta links (recuperar / crear cuenta) ordenados y parejos */
+.auth-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    align-items: start;
+}
+.auth-meta-item small {
+    display: block;
+    line-height: 1.2;
+}
+.auth-meta-item a {
+    margin-top: 2px;
+}
